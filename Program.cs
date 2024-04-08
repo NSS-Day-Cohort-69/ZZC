@@ -11,37 +11,65 @@ create 'secret number' variable, hard-coded
 removed display of user guess
 if user guess is correct, display message. if not, display different message */
 
+/*Phase 3:
+user only has 4 chances to guess
+for loop increments < 5
+*/
 
 int secretNumber = 45;
-bool userGuessedCorrect = false;
+
 
 Console.WriteLine(@"Welcome to The Guessing Game!
 Please enter a number: ");
 
-while (userGuessedCorrect == false)
+HandleUserGuess();
+
+void HandleUserGuess()
 {
-    try
+
+    bool userGuessedCorrect = false;
+    bool guessLimitMet = false;
+
+    for (int i = 0; i < 4 && !userGuessedCorrect; i++)
     {
-        int numberGuessed = int.Parse(Console.ReadLine());
-        if (numberGuessed == secretNumber)
+
+        try
         {
-            Console.WriteLine("MATHEMATICAL! You guessed the secret number!");
-            userGuessedCorrect = true;
+            int numberGuessed = int.Parse(Console.ReadLine().Trim());
+            if (numberGuessed == secretNumber)
+            {
+                Console.WriteLine("MATHEMATICAL! You guessed the secret number!");
+                userGuessedCorrect = true;
+            }
+            else
+            {
+                Console.WriteLine("Um, no. Not it.");
+                if (i == 3)
+                {
+                    guessLimitMet = true;
+                    Console.WriteLine("Oh no! You've run out of tries!");
+                }
+
+
+            }
+
+
         }
-        else
+
+        catch (FormatException)
         {
-            Console.WriteLine("Um, no. Not it.");
+            Console.WriteLine("That was not a number. Please enter a number.");
+
+
         }
 
     }
-    catch (FormatException)
-    {
-        Console.WriteLine("That was not a number. Please enter a number.");
 
 
-    }
 
 }
+
+
 
 
 

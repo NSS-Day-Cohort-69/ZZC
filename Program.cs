@@ -16,8 +16,8 @@ user only has 4 chances to guess
 for loop increments < 5
 */
 
-int secretNumber = 45;
-
+Random random = new Random();
+int secretNumber = random.Next(1, 101);
 
 Console.WriteLine(@"Welcome to The Guessing Game!
 You have four tries to guess the secret number!
@@ -32,14 +32,14 @@ void HandleUserGuess()
 
     for (int i = 0; i < 4 && !userGuessedCorrect; i++)
     {
-        Console.WriteLine($"You're on guess number {i + 1}");
+        Console.WriteLine($"You have {4 - i} {(i == 1 ? "guess" : "guesses")} left");
 
         try
         {
             int numberGuessed = int.Parse(Console.ReadLine().Trim());
             if (numberGuessed == secretNumber)
             {
-                Console.WriteLine("MATHEMATICAL! You guessed the secret number!");
+                Console.WriteLine("MATHEMATICAL! You guessed the secret number! ");
                 userGuessedCorrect = true;
             }
             else
@@ -48,7 +48,9 @@ void HandleUserGuess()
                 Console.WriteLine("Um, no. Not it.");
                 if (i == 3)
                 {
-                    Console.WriteLine("Oh no! You've run out of tries!");
+                    Console.Clear();
+                    Console.WriteLine($@"Oh no! You've run out of tries!
+                    The secret number was {secretNumber}");
                 }
 
 

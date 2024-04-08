@@ -20,6 +20,7 @@ int secretNumber = 45;
 
 
 Console.WriteLine(@"Welcome to The Guessing Game!
+You have four tries to guess the secret number!
 Please enter a number: ");
 
 HandleUserGuess();
@@ -28,10 +29,10 @@ void HandleUserGuess()
 {
 
     bool userGuessedCorrect = false;
-    bool guessLimitMet = false;
 
     for (int i = 0; i < 4 && !userGuessedCorrect; i++)
     {
+        Console.WriteLine($"You're on guess number {i + 1}");
 
         try
         {
@@ -43,10 +44,10 @@ void HandleUserGuess()
             }
             else
             {
+                Console.Clear();
                 Console.WriteLine("Um, no. Not it.");
                 if (i == 3)
                 {
-                    guessLimitMet = true;
                     Console.WriteLine("Oh no! You've run out of tries!");
                 }
 
@@ -64,9 +65,6 @@ void HandleUserGuess()
         }
 
     }
-
-
-
 }
 
 

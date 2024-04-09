@@ -33,18 +33,25 @@ use ternary to display if a guess was too high or low if wrong
         Hard: 4 guesses
 */
 
+/*Phase 8: 
+    Create a new option called cheater
+    allow user to have unlimited amount of guesses
+    */
+
 Random random = new Random();
 int secretNumber = random.Next(1, 101);
-int maxGuessCount = 0;
+int? maxGuessCount = null;
+bool cheaterModeActive = false;
 
 Console.WriteLine(@"Welcome to The Guessing Game!
 What difficulty would you like?
     1. Easy
     2. Medium
     3. Hard
+    4. Cheater
 ");
 
-while (maxGuessCount == 0)
+while (maxGuessCount == null)
 {
     Console.WriteLine("Choice:");
     string userChoice = Console.ReadLine()!.Trim();
@@ -62,6 +69,11 @@ while (maxGuessCount == 0)
             Console.WriteLine("You have chosen Hard Mode, and get 4 guesses!");
             maxGuessCount = 4;
             break;
+        case "4":
+            Console.WriteLine("You have chosen Cheater Mode, and get unlimited guesses!");
+            cheaterModeActive = true;
+            maxGuessCount = 0;
+            break;
         default:
             Console.WriteLine("Please input a valid response!");
             break;
@@ -72,14 +84,23 @@ HandleUserGuess();
 
 void HandleUserGuess()
 {
-    Console.WriteLine($"You have {maxGuessCount} tries to guess the secret number!");
+    Console.WriteLine($"You have {(cheaterModeActive ? "infinite" : maxGuessCount)} tries to guess the secret number!");
     Console.WriteLine("Please enter a number:");
 
-    bool userGuessedCorrect = false;
 
-    for (int i = 0; i < maxGuessCount && !userGuessedCorrect; i++)
+    bool userGuessedCorrect = false;
+    int currentGuessCount = 0;
+
+    while((currentGuessCount < maxGuessCount | cheaterModeActive) && !userGuessedCorrect)
     {
-        Console.WriteLine($"You have {maxGuessCount - i} {(i == maxGuessCount - 1 ? "guess" : "guesses")} left");
+        if(cheaterModeActive)
+        {
+            Console.WriteLine($"You have made {currentGuessCount} {(currentGuessCount == 1 ? "guess" : "guesses")}");
+        }
+        else
+        {
+            Console.WriteLine($"You have {maxGuessCount - currentGuessCount} {(currentGuessCount == maxGuessCount - 1 ? "guess" : "guesses")} left");
+        }
 
         try
         {
@@ -92,9 +113,10 @@ void HandleUserGuess()
             else
             {
                 Console.Clear();
+                currentGuessCount++;
                 Console.WriteLine(@$"Um, no. Not it.
                 You're too {(numberGuessed < secretNumber ? "small!" : "large!")}");
-                if (i == maxGuessCount - 1)
+                if (currentGuessCount == maxGuessCount - 1)
                 {
                     Console.Clear();
                     Console.WriteLine($@"Oh no! You've run out of tries!

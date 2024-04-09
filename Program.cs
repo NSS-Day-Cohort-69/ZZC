@@ -15,6 +15,14 @@ if user guess is correct, display message. if not, display different message */
 user only has 4 chances to guess
 for loop increments < 5
 */
+/*Phase 4:
+display guessCount after each try
+Phase 5:
+use Random to select a secret number
+use guessCount decreasing to show how many tries are left
+Phase 6:
+use ternary to display if a guess was too high or low if wrong
+*/
 
 Random random = new Random();
 int secretNumber = random.Next(1, 101);
@@ -45,7 +53,8 @@ void HandleUserGuess()
             else
             {
                 Console.Clear();
-                Console.WriteLine("Um, no. Not it.");
+                Console.WriteLine(@$"Um, no. Not it.
+                You're too {(numberGuessed < secretNumber ? "small!" : "large!")}");
                 if (i == 3)
                 {
                     Console.Clear();

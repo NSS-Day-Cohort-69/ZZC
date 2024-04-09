@@ -24,23 +24,62 @@ Phase 6:
 use ternary to display if a guess was too high or low if wrong
 */
 
+/* Phase 7:
+    Create maxGuess variable for main loop
+    Prompt user for difficulty level
+    Set maxGuess based on user answer
+        Easy: 8 guesses
+        Medium: 6 guesses
+        Hard: 4 guesses
+*/
+
 Random random = new Random();
 int secretNumber = random.Next(1, 101);
+int maxGuessCount = 0;
 
 Console.WriteLine(@"Welcome to The Guessing Game!
-You have four tries to guess the secret number!
-Please enter a number: ");
+What difficulty would you like?
+    1. Easy
+    2. Medium
+    3. Hard
+");
+
+while (maxGuessCount == 0)
+{
+    Console.WriteLine("Choice:");
+    string userChoice = Console.ReadLine()!.Trim();
+    switch (userChoice)
+    {
+        case "1":
+            Console.WriteLine("You have chosen Easy Mode, and get 8 guesses!");
+            maxGuessCount = 8;
+            break;
+        case "2":
+            Console.WriteLine("You have chosen Medium Mode, and get 6 guesses!");
+            maxGuessCount = 6;
+            break;
+        case "3":
+            Console.WriteLine("You have chosen Hard Mode, and get 4 guesses!");
+            maxGuessCount = 4;
+            break;
+        default:
+            Console.WriteLine("Please input a valid response!");
+            break;
+    }
+}
 
 HandleUserGuess();
 
 void HandleUserGuess()
 {
+    Console.WriteLine($"You have {maxGuessCount} tries to guess the secret number!");
+    Console.WriteLine("Please enter a number:");
 
     bool userGuessedCorrect = false;
 
-    for (int i = 0; i < 4 && !userGuessedCorrect; i++)
+    for (int i = 0; i < maxGuessCount && !userGuessedCorrect; i++)
     {
-        Console.WriteLine($"You have {4 - i} {(i == 1 ? "guess" : "guesses")} left");
+        Console.WriteLine($"You have {maxGuessCount - i} {(i == maxGuessCount - 1 ? "guess" : "guesses")} left");
 
         try
         {
@@ -55,26 +94,19 @@ void HandleUserGuess()
                 Console.Clear();
                 Console.WriteLine(@$"Um, no. Not it.
                 You're too {(numberGuessed < secretNumber ? "small!" : "large!")}");
-                if (i == 3)
+                if (i == maxGuessCount - 1)
                 {
                     Console.Clear();
                     Console.WriteLine($@"Oh no! You've run out of tries!
                     The secret number was {secretNumber}");
                 }
-
-
             }
-
-
         }
 
         catch (FormatException)
         {
             Console.WriteLine("That was not a number. Please enter a number.");
-
-
         }
-
     }
 }
 

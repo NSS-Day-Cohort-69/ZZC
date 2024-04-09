@@ -24,6 +24,15 @@ Phase 6:
 use ternary to display if a guess was too high or low if wrong
 */
 
+/* Phase 7:
+    Create maxGuess variable for main loop
+    Prompt user for difficulty level
+    Set maxGuess based on user answer
+        Easy: 8 guesses
+        Medium: 6 guesses
+        Hard: 4 guesses
+*/
+
 Random random = new Random();
 int secretNumber = random.Next(1, 101);
 
